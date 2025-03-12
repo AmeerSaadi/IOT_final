@@ -29,3 +29,12 @@ void setupWiFi() {
   Serial.println("Connected to the network!");
   generateRandomCode(); 
 }
+
+void sendGameStart() {
+  HTTPClient http;
+  String url = "http://192.168.1.1/api?gameOn";
+  http.begin(client, url);
+  int httpCode = http.GET();
+  String payload = http.getString();
+  http.end();
+}
