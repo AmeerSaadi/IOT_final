@@ -53,3 +53,21 @@ void handleCodeSubmission() {
     server.send(400, "text/plain", "Invalid request");
   }
 }
+
+void WiFisetup() {
+  WiFi.mode(WIFI_AP_STA);
+  WiFi.softAPConfig(localIP, localIP, IPAddress(255, 255, 255, 0));
+  WiFi.softAP(networkSSID, networkPassword);
+
+  server.on("/", handleHomePage);
+  server.on("/submit", handleCodeSubmission);
+  server.onNotFound(handleUnknownRequest);
+
+  Serial.print("Access Point IP: ");
+  Serial.println(localIP);
+  pinMode(LOCK_PIN, OUTPUT);
+  lastWifiCheck = millis();
+  display.clear();
+  display.printInt(0, true);
+  server.begin();
+}
