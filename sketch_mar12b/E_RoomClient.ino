@@ -295,3 +295,39 @@ void generateRandomSequence() {
   }
   Serial.println();
 }
+
+void handleLEDSequencePuzzle() {
+  if (showingStartSequence) {
+    handleStartSequence();
+    return;
+  }
+
+  if (isBlinking) {
+    handleErrorBlink();
+    return;
+  }
+
+  if (showingVictory) {
+    handleVictoryAnimation();
+    return;
+  }
+
+  if (waitingForButtonRelease) {
+    if (digitalRead(buttons[lastPressedButton]) == HIGH) {
+      digitalWrite(leds[lastPressedButton], LOW);
+      waitingForButtonRelease = false;
+      buttonReleaseTime = millis();
+    }
+    return;
+  }
+
+  if (lastPressedButton != -1 && millis() - buttonReleaseTime < 200) {
+    return;
+  }
+
+  lastPressedButton = -1;
+
+  if (displayingSequence) {
+    unsigned long currentTime = millis();
+    if (currentTime - lastChangeTime > 400) {
+      lastChangeTime = currentTime;
