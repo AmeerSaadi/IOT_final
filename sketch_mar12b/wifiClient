@@ -58,3 +58,9 @@ void sendCodeDigit(int puzzleNumber) {
     Serial.println(digit);
   }
 }
+void puzzleSolved(int puzzleNumber) {
+  Serial.print("Puzzle number ");
+  Serial.print(puzzleNumber + 1);
+  Serial.println(" solved!");
+  sendCodeDigit(puzzleNumber); 
+}
