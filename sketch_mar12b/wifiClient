@@ -21,3 +21,11 @@ void generateRandomCode() {
   }
   Serial.println();
 }
+
+void setupWiFi() {
+  Serial.println("Connecting to network...");
+  WiFi.begin(ssid, pswd);
+  lastWifiCheckTime = millis();
+  Serial.println("Connected to the network!");
+  generateRandomCode(); 
+}
