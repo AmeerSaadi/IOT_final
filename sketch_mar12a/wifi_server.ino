@@ -19,3 +19,20 @@ String secretCode = "";
 unsigned long lastWifiCheck = 0;
 
 ESP8266WebServer server(80);
+
+void handleUnknownRequest() {
+  String response = "Requested resource not found\n\n";
+  response += "URI: ";
+  response += server.uri();
+  response += "\nMethod: ";
+  response += (server.method() == HTTP_GET) ? "GET" : "POST";
+  response += "\nArguments: ";
+  response += server.args();
+  response += "\n";
+
+  for (uint8_t i = 0; i < server.args(); i++) {
+    response += " " + server.argName(i) + ": " + server.arg(i) + "\n";
+  }
+
+  server.send(404, "text/plain", response);
+}
