@@ -20,3 +20,14 @@
 #define BLUE_BTN D7
 
 DHT dht(DHTPIN, DHTTYPE);
+
+extern int secretCode[4];
+void SendData(int digit);
+void SendCodeDigit(int puzzleNumber);
+void puzzleSolved(int puzzleNumber);
+void wifi_Setup();
+void SendGameOn();
+
+int currentPuzzle = 0;
+unsigned long currentMillis = 0;
+unsigned long lastSensorReadMillis = 0;
