@@ -120,3 +120,28 @@ void setup() {
   startSequenceCount = 0;
   startSequenceTime = millis();
 }
+
+void loop() {
+  currentMillis = millis();
+  static unsigned long statusPrintTimer = 0;
+  if (!gameOver) {
+    if (currentMillis - statusPrintTimer >= 5000) {
+      statusPrintTimer = currentMillis;
+      Serial.print("Current State: Puzzle ");
+      Serial.println(currentPuzzle + 1);
+    }
+  } else {
+    if (!gameOverMessage) {
+      Serial.print("Game Over! Thank you for playing!");
+      gameOverMessage = true;
+    }
+  }
+  if (ReadMuxChannel(0) > 50) {
+    if (!gameIsOn) {
+      SendGameOn();
+    }
+    gameIsOn = true;
+  }
+  if (currentMillis - lastSensorReadMillis >= 1000) {
+    lastSensorReadMillis = currentMillis;
+  }
