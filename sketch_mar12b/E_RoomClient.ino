@@ -240,3 +240,42 @@ Serial.print("Light Level: ");
     }
   }
 }
+
+void handleTemperaturePuzzle() {
+  pinMode(FAN_PIN, OUTPUT);
+
+  if (currentMillis - lastTempCheckMillis >= 2000) {
+    lastTempCheckMillis = currentMillis;
+
+    float t = dht.readTemperature();
+
+    currentTemp = t;
+    Serial.print("Temperature = ");
+    Serial.println(currentTemp);
+
+    if (targetTemp == 0) {
+      targetTemp = currentTemp - 0.1;
+      Serial.print("Target Temperature: ");
+      Serial.println(targetTemp);
+    }
+
+    if (currentTemp <= targetTemp) {
+      if (!tempInCorrectRange) {
+        tempInCorrectRange = true;
+        tempCorrectStartTime = currentMillis;
+        Serial.println("Reached target temperature!");
+      } else if (currentMillis - tempCorrectStartTime >= 2000) {
+        Serial.println("Puzzle Solved! Temperature dropped enough for 2 seconds");
+        puzzleSolved(1);
+        digitalWrite(FAN_PIN, HIGH);
+        currentPuzzle++;
+        tempPuzzleSolved = true;
+      }
+    } else {
+      if (tempInCorrectRange) {
+        Serial.println("Temperature rose above target - Restarting");
+        tempInCorrectRange = false;
+      }
+    }
+  }
+}
