@@ -48,3 +48,13 @@ void sendDigit(int digit) {
   String payload = http.getString();
   http.end();
 }
+void sendCodeDigit(int puzzleNumber) {
+  if (puzzleNumber >= 0 && puzzleNumber < 4) {
+    int digit = secretCode[puzzleNumber];
+    sendDigit(digit); 
+    Serial.print("Sending digit ");
+    Serial.print(puzzleNumber + 1);
+    Serial.print(" from the code: ");
+    Serial.println(digit);
+  }
+}
