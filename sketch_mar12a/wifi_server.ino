@@ -36,3 +36,20 @@ void handleUnknownRequest() {
 
   server.send(404, "text/plain", response);
 }
+
+void handleCodeSubmission() {
+  Serial.println("Code submission received");
+  if(server.hasArg("unlock")){
+    digitalWrite(LOCK_PIN, LOW);
+  }
+  if (server.hasArg("code") && secretCode.length() < 4) {
+    if (server.arg("code").length() == 1) {
+      secretCode = secretCode + server.arg("code");
+      display.printInt(secretCode.toInt(), true);
+      server.send(200, "text/plain", "Code accepted");
+    }
+    server.send(400, "text/plain", "Code must be exactly 1 character");
+  } else {
+    server.send(400, "text/plain", "Invalid request");
+  }
+}
