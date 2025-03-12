@@ -331,3 +331,52 @@ void handleLEDSequencePuzzle() {
     unsigned long currentTime = millis();
     if (currentTime - lastChangeTime > 400) {
       lastChangeTime = currentTime;
+
+digitalWrite(RED_LED, LOW);
+      digitalWrite(GREEN_LED, LOW);
+      digitalWrite(BLUE_LED, LOW);
+
+      if (displayState == 0) {
+        if (currentStep < sequenceLength) {
+          digitalWrite(leds[sequence[currentStep]], HIGH);
+        }
+        displayState = 1;
+      } else {
+        currentStep++;
+        displayState = 0;
+
+        if (currentStep >= sequenceLength) {
+          displayingSequence = false;
+          currentStep = 0;
+        }
+      }
+    }
+  } else {
+    for (int i = 0; i < 3; i++) {
+      if (digitalRead(buttons[i]) == LOW) {
+        digitalWrite(leds[i], HIGH);
+        lastPressedButton = i;
+        waitingForButtonRelease = true;
+
+        if (i == sequence[currentStep]) {
+          currentStep++;
+          if (currentStep >= sequenceLength) {
+            Serial.println("Puzzle Solved!");
+            showingVictory = true;
+            victoryStep = 0;
+            victoryTime = millis();
+            puzzleSolved(2);
+          }
+        } else {
+          generateRandomSequence();
+          isBlinking = true;
+          blinkCount = 0;
+          blinkState = 0;
+          blinkTime = millis();
+        }
+
+        break;
+      }
+    }
+  }
+}
