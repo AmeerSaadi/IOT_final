@@ -193,3 +193,23 @@ int ReadMuxChannel(byte chnl) {
   int ret = analogRead(MUX_IN);
   return ret;
 }
+
+void handleLightPuzzle() {
+  static unsigned long lastLightCheckMillis = 0;
+
+  int lightLevel = ReadMuxChannel(0);
+
+  if (samplingMaxLight) {
+    if (lightLevel > maxLightLevel) {
+      maxLightLevel = lightLevel;
+    }
+
+    if (currentMillis - samplingStartTime >= 5000) {
+      samplingMaxLight = false;
+    }
+    return;
+  }
+
+  if (lightLevel > maxLightLevel) {
+    maxLightLevel = lightLevel;
+  }
