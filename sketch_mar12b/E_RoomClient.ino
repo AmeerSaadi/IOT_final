@@ -145,3 +145,38 @@ void loop() {
   if (currentMillis - lastSensorReadMillis >= 1000) {
     lastSensorReadMillis = currentMillis;
   }
+
+ if (gameIsOn == true) {
+    switch (currentPuzzle) {
+      case 0:
+        pinMode(A0, INPUT);
+        pinMode(MUX_A, OUTPUT);
+        pinMode(MUX_B, OUTPUT);
+        pinMode(MUX_C, OUTPUT);
+        pinMode(MUX_IN, INPUT);
+        digitalWrite(A0, LOW);
+        handleLightPuzzle();
+        break;
+      case 1:
+        dht.begin();
+        pinMode(FAN_PIN, OUTPUT);
+        digitalWrite(FAN_PIN, LOW);
+        handleTemperaturePuzzle();
+        break;
+      case 2:
+        pinMode(RED_BTN, INPUT_PULLUP);
+        pinMode(GREEN_BTN, INPUT_PULLUP);
+        pinMode(BLUE_BTN, INPUT_PULLUP);
+        handleLEDSequencePuzzle();
+        break;
+      case 3:
+        pinMode(MUX_A, OUTPUT);
+        pinMode(MUX_B, OUTPUT);
+        pinMode(MUX_C, OUTPUT);
+        pinMode(MUX_IN, INPUT);
+        digitalWrite(A0, LOW);
+        handleJoystickChallenge();
+        break;
+    }
+  }
+}
