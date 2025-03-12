@@ -2,3 +2,7 @@
 #include <WiFiClient.h>
 #include <ESP8266HTTPClient.h>
 
+const char* ssid = "EscapeRoom";
+const char* pswd = "12345678";
+
+
