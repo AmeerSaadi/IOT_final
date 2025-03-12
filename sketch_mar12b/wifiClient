@@ -10,3 +10,14 @@ int server_port = 80;
 int secretCode[4];
 unsigned long lastWifiCheckTime = 0;
 
+void generateRandomCode() {
+  long seed = millis() * analogRead(A0) + micros();
+  randomSeed(seed);
+  Serial.print("New Secret Code: ");
+  for (int i = 0; i < 4; i++) {
+    secretCode[i] = random(0, 10); 
+    Serial.print(secretCode[i]);
+    if (i < 3) Serial.print("-");
+  }
+  Serial.println();
+}
