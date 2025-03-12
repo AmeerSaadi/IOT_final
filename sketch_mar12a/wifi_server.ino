@@ -71,3 +71,11 @@ void WiFisetup() {
   display.printInt(0, true);
   server.begin();
 }
+
+void WiFiloop() {
+  if (millis() - lastWifiCheck >= 10) {
+    lastWifiCheck = millis();
+    server.handleClient();
+  }
+  display.loop();
+}
