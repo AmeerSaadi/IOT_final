@@ -213,3 +213,30 @@ void handleLightPuzzle() {
   if (lightLevel > maxLightLevel) {
     maxLightLevel = lightLevel;
   }
+
+Serial.print("Light Level: ");
+  Serial.print(lightLevel);
+  Serial.print(" Max Light Level: ");
+  Serial.print(maxLightLevel);
+  Serial.print(" Target Light Level (80%): ");
+  Serial.println(maxLightLevel * 0.8);
+
+  if (lightLevel <= maxLightLevel * 0.8) {
+    if (!inCorrectLightRange) {
+      inCorrectLightRange = true;
+      lightCorrectStartTime = currentMillis;
+      Serial.println("Entered correct light range");
+    } else if (currentMillis - lightCorrectStartTime >= 2000) {
+      Serial.println("Puzzle Solved! Light was in the correct range for 2 seconds");
+      puzzleSolved(0);
+      currentPuzzle++;
+      inCorrectLightRange = false;
+      maxLightLevel = 0;
+    }
+  } else {
+    if (inCorrectLightRange) {
+      Serial.println("Exited correct light range - Restarting");
+      inCorrectLightRange = false;
+    }
+  }
+}
