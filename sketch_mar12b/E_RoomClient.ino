@@ -180,3 +180,16 @@ void loop() {
     }
   }
 }
+
+int ReadMuxChannel(byte chnl) {
+  int a = (bitRead(chnl, 0) > 0) ? HIGH : LOW;
+  int b = (bitRead(chnl, 1) > 0) ? HIGH : LOW;
+  int c = (bitRead(chnl, 2) > 0) ? HIGH : LOW;
+
+  digitalWrite(MUX_A, a);
+  digitalWrite(MUX_B, b);
+  digitalWrite(MUX_C, c);
+
+  int ret = analogRead(MUX_IN);
+  return ret;
+}
