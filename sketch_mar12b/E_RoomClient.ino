@@ -91,3 +91,32 @@ int muxReadResult = 0;
 bool gameIsOn = false;
 bool gameOver = false;
 bool gameOverMessage = false;
+
+void setup() {
+  Serial.begin(9600);
+  wifi_Setup();
+
+  pinMode(RED_LED, OUTPUT);
+  pinMode(GREEN_LED, OUTPUT);
+  pinMode(BLUE_LED, OUTPUT);
+  digitalWrite(RED_LED, LOW);
+  digitalWrite(GREEN_LED, LOW);
+  digitalWrite(BLUE_LED, LOW);
+
+  pinMode(MUX_A, OUTPUT);
+  pinMode(MUX_B, OUTPUT);
+  pinMode(MUX_C, OUTPUT);
+  pinMode(MUX_IN, INPUT);
+  digitalWrite(A0, LOW);
+
+  for (int i = 0; i < 10; i++) {
+    analogRead(A0);
+  }
+  generateRandomSequence();
+
+  samplingStartTime = millis();
+
+  showingStartSequence = true;
+  startSequenceCount = 0;
+  startSequenceTime = millis();
+}
