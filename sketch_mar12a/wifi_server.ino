@@ -10,7 +10,7 @@
 
 DIYables_4Digit7Segment_74HC595 display(CLOCK_PIN, LATCH_PIN, DATA_PIN);
 
-IPAddress localIP(192, 168, 1, 1);
+IPAddress apIP(192, 168, 1, 1);
 
 const char* networkSSID = "EscapeRoom";
 const char* networkPassword = "12345678";
