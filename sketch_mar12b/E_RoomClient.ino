@@ -467,3 +467,58 @@ void handleVictoryAnimation() {
     }
   }
 }
+
+void handleJoystickChallenge() {
+  static unsigned long lastPrintTime = 0;
+  unsigned long currentTime = millis();
+
+  static unsigned long lastJoystickReadTime = 0;
+  if (currentTime - lastJoystickReadTime >= 50) {
+    lastJoystickReadTime = currentTime;
+
+    joystickX = ReadMuxChannel(4);
+    joystickY = ReadMuxChannel(5);
+  }
+
+  if (currentTime - lastPrintTime >= 1000) {
+    lastPrintTime = currentTime;
+    Serial.print("X: ");
+    Serial.print(joystickX);
+    Serial.print(" Y: ");
+    Serial.println(joystickY);
+  }
+
+  if (isInCorner()) {
+    if (!inCornerPosition) {
+      inCornerPosition = true;
+      cornerStartTime = currentTime;
+      Serial.println("Joystick in corner! Hold for 2 seconds");
+    } else if (currentTime - cornerStartTime >= CORNER_TIMEOUT) {
+      if (!joystickChallengeSolved) {
+        joystickChallengeSolved = true;
+        inCornerPosition = false;
+        Serial.println("Puzzle Solved! Joystick was in corner long enough");
+        currentPuzzle++;
+        puzzleSolved(3);
+        gameOver = true;
+      }
+    }
+  } else {
+    if (inCornerPosition) {
+      inCornerPosition = false;
+      Serial.println("Joystick left corner - Try again");
+    }
+  }
+}
+
+bool isInCorner() {
+  bool topRight = (joystickX > CENTER_VALUE + CORNER_THRESHOLD) && (joystickY > CENTER_VALUE + CORNER_THRESHOLD);
+
+  bool bottomRight = (joystickX > CENTER_VALUE + CORNER_THRESHOLD) && (joystickY < CENTER_VALUE - CORNER_THRESHOLD);
+
+  bool topLeft = (joystickX < CENTER_VALUE - CORNER_THRESHOLD) && (joystickY > CENTER_VALUE + CORNER_THRESHOLD);
+
+  bool bottomLeft = (joystickX < CENTER_VALUE - CORNER_THRESHOLD) && (joystickY < CENTER_VALUE - CORNER_THRESHOLD);
+
+  return topRight || bottomRight || topLeft || bottomLeft;
+}
