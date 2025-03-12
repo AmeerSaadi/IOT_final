@@ -434,3 +434,36 @@ void handleErrorBlink() {
     }
   }
 }
+
+void handleVictoryAnimation() {
+  if (millis() - victoryTime > 150) {
+    victoryTime = millis();
+
+    digitalWrite(RED_LED, LOW);
+    digitalWrite(GREEN_LED, LOW);
+    digitalWrite(BLUE_LED, LOW);
+
+    if (victoryStep < 9) {
+      int ledIndex = victoryStep % 3;
+      digitalWrite(leds[ledIndex], HIGH);
+    }
+
+    victoryStep++;
+
+    if (victoryStep >= 9) {
+      showingVictory = false;
+
+      digitalWrite(RED_LED, LOW);
+      digitalWrite(GREEN_LED, LOW);
+      digitalWrite(BLUE_LED, LOW);
+
+      generateRandomSequence();
+
+      showingStartSequence = true;
+      startSequenceCount = 0;
+      startSequenceTime = millis();
+
+      currentPuzzle++;
+    }
+  }
+}
