@@ -534,3 +534,12 @@ void handleHomePage() {
 
 server.send(200, "text/html", html);
 }
+
+void setup() {
+  Serial.begin(9600);
+  wifiSetup();
+}
+
+void loop() {
+  wifiLoop();
+}
