@@ -44,3 +44,29 @@ bool tempPuzzleSolved = false;
 bool tempInCorrectRange = false;
 unsigned long tempCorrectStartTime = 0;
 static unsigned long lastTempCheckMillis = 0;
+
+const int sequenceLength = 8;
+int sequence[sequenceLength];
+int leds[3] = { RED_LED, GREEN_LED, BLUE_LED };
+int buttons[3] = { RED_BTN, GREEN_BTN, BLUE_BTN };
+int currentStep = 0;
+bool displayingSequence = true;
+unsigned long lastChangeTime = 0;
+int displayState = 0;
+
+unsigned long buttonReleaseTime = 0;
+bool waitingForButtonRelease = false;
+int lastPressedButton = -1;
+
+bool isBlinking = false;
+int blinkCount = 0;
+unsigned long blinkTime = 0;
+int blinkState = 0;
+
+bool showingVictory = false;
+int victoryStep = 0;
+unsigned long victoryTime = 0;
+
+bool showingStartSequence = true;
+int startSequenceCount = 0;
+unsigned long startSequenceTime = 0;
