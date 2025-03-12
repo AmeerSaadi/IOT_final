@@ -279,3 +279,19 @@ void handleTemperaturePuzzle() {
     }
   }
 }
+
+void generateRandomSequence() {
+  long randSeed = millis() * analogRead(A0);
+  randomSeed(randSeed);
+
+  for (int i = 0; i < sequenceLength; i++) {
+    sequence[i] = random(0, 3);
+  }
+
+  Serial.println("New random sequence:");
+  for (int i = 0; i < sequenceLength; i++) {
+    Serial.print(sequence[i]);
+    Serial.print(" ");
+  }
+  Serial.println();
+}
