@@ -407,3 +407,30 @@ void handleStartSequence() {
     }
   }
 }
+
+void handleErrorBlink() {
+  if (millis() - blinkTime > 200) {
+    blinkTime = millis();
+
+    if (blinkState == 0) {
+      digitalWrite(RED_LED, HIGH);
+      digitalWrite(GREEN_LED, HIGH);
+      digitalWrite(BLUE_LED, HIGH);
+      blinkState = 1;
+    } else {
+      digitalWrite(RED_LED, LOW);
+      digitalWrite(GREEN_LED, LOW);
+      digitalWrite(BLUE_LED, LOW);
+      blinkState = 0;
+      blinkCount++;
+
+      if (blinkCount >= 3) {
+        isBlinking = false;
+        currentStep = 0;
+        displayingSequence = true;
+        displayState = 0;
+        lastChangeTime = millis();
+      }
+    }
+  }
+}
