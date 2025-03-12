@@ -380,3 +380,30 @@ digitalWrite(RED_LED, LOW);
     }
   }
 }
+
+void handleStartSequence() {
+  if (millis() - startSequenceTime > 300) {
+    startSequenceTime = millis();
+
+    if (blinkState == 0) {
+      digitalWrite(RED_LED, HIGH);
+      digitalWrite(GREEN_LED, HIGH);
+      digitalWrite(BLUE_LED, HIGH);
+      blinkState = 1;
+    } else {
+      digitalWrite(RED_LED, LOW);
+      digitalWrite(GREEN_LED, LOW);
+      digitalWrite(BLUE_LED, LOW);
+      blinkState = 0;
+      startSequenceCount++;
+
+      if (startSequenceCount >= 3) {
+        showingStartSequence = false;
+        displayingSequence = true;
+        currentStep = 0;
+        displayState = 0;
+        lastChangeTime = millis();
+      }
+    }
+  }
+}
