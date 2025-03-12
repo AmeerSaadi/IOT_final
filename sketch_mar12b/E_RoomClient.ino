@@ -70,3 +70,24 @@ unsigned long victoryTime = 0;
 bool showingStartSequence = true;
 int startSequenceCount = 0;
 unsigned long startSequenceTime = 0;
+
+bool joystickChallengeSolved = false;
+unsigned long cornerStartTime = 0;
+bool inCornerPosition = false;
+const int CORNER_TIMEOUT = 2000;
+
+int joystickX;
+int joystickY;
+const int CORNER_THRESHOLD = 200;
+const int CENTER_VALUE = 512;
+
+unsigned long lastMuxReadTime = 0;
+unsigned long lastJoystickCheckTime = 0;
+const int MUX_STABILIZE_TIME = 10;
+bool muxReadPending = false;
+byte pendingChannel = 0;
+int muxReadResult = 0;
+
+bool gameIsOn = false;
+bool gameOver = false;
+bool gameOverMessage = false;
